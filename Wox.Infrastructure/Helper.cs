@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -68,11 +70,40 @@ namespace Wox.Infrastructure
         public static string Formatted<T>(this T t)
         {
             var formatted = JsonConvert.SerializeObject(
-               t,
-               Formatting.Indented,
-               new StringEnumConverter()
-           );
+                t,
+                Formatting.Indented,
+                new StringEnumConverter()
+            );
             return formatted;
         }
+
+
+        private const string
+            Eng = "qwertyuiop[]asdfghjkl;'zxcvbnm,.",
+            Rus = "йцукенгшщзхъфывапролджэячсмитьбю";
+
+        public static bool IsRus(this string input) => Regex.IsMatch(input, "[А-Яа-я]");
+
+        public static bool IsEng(this string input) => Regex.IsMatch(input, "[A-Za-z]");
+
+        public static string EngToRus(this string input)
+        {
+            var result = new StringBuilder(input.Length);
+            int index;
+            foreach (var symbol in input.ToLower())
+                result.Append((index = Eng.IndexOf(symbol)) != -1 ? Rus[index] : symbol);
+            return result.ToString();
+        }
+        
+        public static string RusToEng(this string input)
+        {
+            var result = new StringBuilder(input.Length);
+            int index;
+            foreach (var symbol in input.ToLower())
+                result.Append((index = Rus.IndexOf(symbol)) != -1 ? Eng[index] : symbol);
+            return result.ToString();
+        }
+
+
     }
 }

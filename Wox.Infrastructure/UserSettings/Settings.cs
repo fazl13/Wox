@@ -29,8 +29,8 @@ namespace Wox.Infrastructure.UserSettings
 
         #endregion
 
-        public string Hotkey { get; set; } = "Alt + Space";
-        public string Language { get; set; } = "en";
+        public string Hotkey { get; set; } = "Alt + X";
+        public string Language { get; set; } = "ru";
         public string Theme { get; set; } = "Dark";
         public string QueryBoxFont { get; set; } = FontFamily.GenericSansSerif.Name;
         public string QueryBoxFontStyle { get; set; }
@@ -79,12 +79,12 @@ namespace Wox.Infrastructure.UserSettings
             }
         }
 
-        public bool AutoUpdates { get; set; } = true;
+        public bool AutoUpdates { get; set; } = false;
         public bool UpdateToPrereleases { get; set; } = false;
 
         public double WindowLeft { get; set; }
         public double WindowTop { get; set; }
-        public int MaxResultsToShow { get; set; } = 6;
+        public int MaxResultsToShow { get; set; } = 10;
         public int ActivateTimes { get; set; }
 
         // Order defaults to 0 or -1, so 1 will let this property appear last

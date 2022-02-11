@@ -41,9 +41,19 @@ namespace Wox.Infrastructure
         public MatchResult FuzzyMatch(string query, string stringToCompare)
         {
             query = query.Trim();
-            if (string.IsNullOrEmpty(stringToCompare) || string.IsNullOrEmpty(query)) return new MatchResult(false, UserSettingSearchPrecision);
+            if (string.IsNullOrEmpty(stringToCompare) || string.IsNullOrEmpty(query)) 
+                return new MatchResult(false, UserSettingSearchPrecision);
             var queryWithoutCase = query.ToLower();
-            string translated = _alphabet.Translate(stringToCompare);
+            
+            var translated = string.Empty;
+            if (queryWithoutCase.IsEng())
+            {
+                translated = _alphabet.ChangeInputLayoutToEng(stringToCompare);
+            }
+            else if (queryWithoutCase.IsRus())
+            {
+                translated = _alphabet.ChangeInputLayoutToRus(stringToCompare);
+            }
 
             string key = $"{queryWithoutCase}|{translated}";
             MatchResult match = _cache[key] as MatchResult;
